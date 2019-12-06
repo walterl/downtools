@@ -27,6 +27,12 @@ into
   * [X] Lua in Neovim is easy.
 ```
 
+and back into
+
+```
+  * [ ] Lua in Neovim is easy.
+```
+
 It only supports `*`-bullets, and preserves indentation.
 
 ## Installation
