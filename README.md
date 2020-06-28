@@ -18,8 +18,8 @@ Plug 'walterl/downtools'
 ## Features
 ### Toggle todo list items
 
-Repeatedly running `:LisToggle` (mapped to `<C-Space>` in Markdown files),
-turns the line
+Repeatedly running `:DownToggleListItem` (mapped to `<C-Space>` in Markdown
+files), turns the line
 
 ```
   Lua in Neovim is easy.
@@ -59,6 +59,8 @@ Visually selecting `bar` in a line containing `foo bar baz` and hitting
 ```
 foo [bar]() baz
 ```
+
+`<C-k>` just executes the `DownMakeLink` command.
 
 The cursor will be placed between the parentheses (`()`).
 

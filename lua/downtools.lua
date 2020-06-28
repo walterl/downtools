@@ -22,7 +22,7 @@ local function toggle_todo_mark(mark)
 	return mark
 end
 
-local function listoggle(line)
+local function toggle_list_item(line)
 	orig_line = line
 	leading_space = line:match("^[\t ]+")
 	if leading_space == nil then
@@ -74,6 +74,6 @@ local function vlink()
 end
 
 return {
-	listoggle = listoggle,
+	toggle_list_item = toggle_list_item,
 	vlink = vlink
 }
