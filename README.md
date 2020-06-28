@@ -1,6 +1,6 @@
 # [mark]downtools
 
-Neovim plugin to containing some useful Markdown editing functionality:
+Neovim plugin containing some useful Markdown editing functionality:
 
 * Toggle todo list items.
 * Create a link from the visual selection.
