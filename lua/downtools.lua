@@ -1,3 +1,31 @@
+local function get_line_nr()
+	return vim.api.nvim_win_get_cursor(0)[1]
+end
+
+local function get_current_line()
+	return vim.api.nvim_get_current_line()
+end
+
+local function get_mark_col(mark)
+	return vim.api.nvim_buf_get_mark(0, mark)[2]
+end
+
+local function set_line(n, line)
+	vim.api.nvim_buf_set_lines(0, n-1, n, false, {line})
+end
+
+local function set_current_line(line)
+	set_line(get_line_nr(), line)
+end
+
+local function set_cursor(row, col)
+	vim.api.nvim_win_set_cursor(0, {row, col})
+end
+
+----------------------
+-- toggle_list_item --
+----------------------
+
 local function is_list_item_line(line)
 	if line:find("*") == 1 then
 		return true
@@ -22,7 +50,7 @@ local function toggle_todo_mark(mark)
 	return mark
 end
 
-local function toggle_list_item(line)
+local function toggle_list_item_line(line)
 	orig_line = line
 	leading_space = line:match("^[\t ]+")
 	if leading_space == nil then
@@ -51,26 +79,34 @@ local function toggle_list_item(line)
 	return orig_line
 end
 
-local function vlink()
-	local linenr = vim.api.nvim_win_get_cursor(0)[1]
-	local line = vim.api.nvim_get_current_line()
-	local startpos = vim.api.nvim_buf_get_mark(0, "<")[2]
-	local endpos = vim.api.nvim_buf_get_mark(0, ">")[2]
+local function toggle_list_item()
+	set_current_line(toggle_list_item_line(get_current_line()))
+end
 
+-----------
+-- vlink --
+-----------
+
+local function vlink_line(line, startpos, endpos)
 	local link_text = line:sub(startpos+1, endpos+1)
 
 	if link_text == "" then
-		return
+		return line
 	end
 
 	local before = line:sub(0, startpos)
 	local after = line:sub(endpos+2)
 
-	local updated_line = before .. "[" .. link_text .. "]()" .. after
-	vim.api.nvim_buf_set_lines(0, linenr-1, linenr, false, {updated_line})
+	return before .. "[" .. link_text .. "]()" .. after
+end
 
+local function vlink()
+	local linenr = get_line_nr()
+	local endpos = get_mark_col(">")
+	local updated_line = vlink_line(get_current_line(), get_mark_col("<"), endpos)
+	set_line(linenr, updated_line)
 	-- Move cursor to closing paren, so that user can `i`nsert/`P`aste there
-	vim.api.nvim_win_set_cursor(0, {linenr, endpos+4})
+	set_cursor(linenr, endpos+4)
 end
 
 return {

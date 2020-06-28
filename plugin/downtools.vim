@@ -1,4 +1,4 @@
-command! DownToggleListItem :call setline(".", luaeval('require("downtools").toggle_list_item(_A)', getline(".")))
+command! DownToggleListItem :lua require("downtools").toggle_list_item()
 if !exists('g:downtools_disable_list_toggle_mapping')
   autocmd BufRead,BufNewFile *.md,*.mdk,*.markdown nmap <C-Space> :DownToggleListItem<CR>
 endif
