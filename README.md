@@ -48,6 +48,9 @@ Plug 'walterl/listoggle'
 Disable the `<C-Space>` mapping in Markdown files with
 `let g:listoggle_disable_mapping = 1`.
 
+Disable the `<C-k>` mapping in Markdown files with
+`let g:mdlink_disable_mapping = 1`.
+
 ## Background
 
 This plugin was developed to explore writing Neovim plugins in Lua.
