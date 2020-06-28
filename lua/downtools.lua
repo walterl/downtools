@@ -51,7 +51,7 @@ local function listoggle(line)
 	return orig_line
 end
 
-local function mdlink()
+local function vlink()
 	local linenr = vim.api.nvim_win_get_cursor(0)[1]
 	local line = vim.api.nvim_get_current_line()
 	local startpos = vim.api.nvim_buf_get_mark(0, "<")[2]
@@ -75,5 +75,5 @@ end
 
 return {
 	listoggle = listoggle,
-	mdlink = mdlink
+	vlink = vlink
 }

@@ -68,7 +68,7 @@ Disable the `<C-Space>` mapping in Markdown files with
 `let g:downtools_disable_list_toggle_mapping = 1`.
 
 Disable the `<C-k>` mapping in Markdown files with
-`let g:downtools_disable_mdlink_mapping = 1`.
+`let g:downtools_disable_vlink_mapping = 1`.
 
 ## Background
 
