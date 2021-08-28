@@ -64,6 +64,20 @@ foo [bar]() baz
 
 The cursor will be placed between the parentheses (`()`).
 
+### Bold visual selection
+
+Visually selecting `bar` and hitting `<C-b>` will change
+
+```
+foo bar baz
+```
+
+into
+
+```
+foo **bar** baz
+```
+
 ## Configuration
 
 Disable the `<C-Space>` mapping in Markdown files with
@@ -71,6 +85,9 @@ Disable the `<C-Space>` mapping in Markdown files with
 
 Disable the `<C-k>` mapping in Markdown files with
 `let g:downtools_disable_vlink_mapping = 1`.
+
+Disable the `<C-b>` mapping in Markdown files with
+`let g:downtools_disable_bold_mapping = 1`.
 
 ## Background
 

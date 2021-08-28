@@ -7,3 +7,10 @@ command! -range DownMakeLink :lua require("downtools").vlink()
 if !exists('g:downtools_disable_vlink_mapping')
   autocmd FileType markdown vmap <C-k> :DownMakeLink<CR>
 endif
+
+" Requires tpope/vim-surround
+if exists('g:loaded_surround')
+  if !exists('g:downtools_disable_bold_mapping')
+    autocmd FileType markdown vmap <C-b> S*gvS*
+  endif
+endif
