@@ -2,81 +2,64 @@
 
 Neovim plugin containing some useful Markdown editing functionality:
 
-* Toggle todo list items.
-* Create a link from the visual selection.
+* [Toggle task list item](#toggle-task-list-item)
+* [Create a link from the visual selection](#create-a-link-from-the-visual-selection)
+* [Bold the visual selection](#bold-the-visual-selection)
 
 (This project used to be called _LisToggle_ when it only supported the first item.)
 
 ## Installation
 
-I recommend [vim-plug](https://github.com/junegunn/vim-plug):
+I use and recommend [vim-plug](https://github.com/junegunn/vim-plug):
 
 ```
 Plug 'walterl/downtools'
 ```
 
 ## Features
-### Toggle todo list items
-
+### Toggle task list item
 Repeatedly running `:DownToggleListItem` (mapped to `<C-Space>` in Markdown
 files), turns the line
 
-```
-  Lua in Neovim is easy.
-```
+    Lua in Neovim is easy.
 
 into
 
-```
-  * Lua in Neovim is easy.
-```
+    - Lua in Neovim is easy.
 
 into
 
-```
-  * [ ] Lua in Neovim is easy.
-```
+    - [ ] Lua in Neovim is easy.
 
 into
 
-```
-  * [X] Lua in Neovim is easy.
-```
+    - [X] Lua in Neovim is easy.
 
 and back into
 
-```
-  * [ ] Lua in Neovim is easy.
-```
+    - [ ] Lua in Neovim is easy.
 
-It only supports `*`-bullets, and preserves indentation.
+Indentation is preserved, and the list marker at the current indentation level
+will be used, defaulting to `-`.
 
 ### Create a link from the visual selection
-
 Visually selecting `bar` in a line containing `foo bar baz` and hitting
 `<C-k>`, will change that line to:
 
-```
-foo [bar]() baz
-```
+    foo [bar]() baz
 
 `<C-k>` just executes the `DownMakeLink` command.
 
 The cursor will be placed between the parentheses (`()`).
 
-### Bold visual selection
-
+### Bold the visual selection
 Visually selecting `bar` and hitting `<C-b>` will change
 
-```
-foo bar baz
-```
+    foo bar baz
 
 into
 
-```
-foo **bar** baz
-```
+    foo **bar** baz
 
 ## Configuration
 
