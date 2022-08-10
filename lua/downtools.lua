@@ -1,3 +1,7 @@
+local function get_indent(line)
+	return line:match("^%s+") or ""
+end
+
 local function get_line_nr()
 	return vim.api.nvim_win_get_cursor(0)[1]
 end
@@ -25,12 +29,12 @@ end
 ----------------------
 -- toggle_list_item --
 ----------------------
+local function get_line_list_marker(line)
+	return vim.trim(line):match("^([%-%*%+])%s")
+end
 
 local function is_list_item_line(line)
-	if line:find("*") == 1 then
-		return true
-	end
-	return false
+	return get_line_list_marker(line) ~= nil
 end
 
 local function is_todo_item_line(line)
@@ -40,8 +44,45 @@ local function is_todo_item_line(line)
 	return false
 end
 
+-- Try and determine list marker for similarly indented, non-blank lines
+-- preceding `n`
+local function get_preceding_list_marker(n)
+	lines = vim.api.nvim_buf_get_lines(0, 0, n, false)
+	indent = get_indent(lines[n])
+	while n > 0 do
+		line = lines[n]
+
+		-- Match indent
+		if indent == "" then
+			if get_indent(line) ~= "" then
+				goto continue
+			end
+		elseif line:find(indent) == 1 then
+			unindented = line:sub(indent:len() + 1)
+			if get_indent(unindented):find(indent) == 1 then
+				goto continue
+			end
+		elseif line ~= "" then
+			return nil
+		end
+
+		line = vim.trim(line)
+
+		if line == "" then
+			return nil
+		end
+
+		marker = get_line_list_marker(line)
+		if marker ~= nil then
+			return marker
+		end
+
+		::continue::
+		n = n - 1
+	end
+end
+
 local function toggle_todo_mark(mark)
-	print("mark:", mark)
 	if mark == " " then
 		return "X"
 	elseif mark == "X" then
@@ -50,37 +91,35 @@ local function toggle_todo_mark(mark)
 	return mark
 end
 
-local function toggle_list_item_line(line)
+local function toggle_list_item_line(line, list_marker)
 	orig_line = line
-	leading_space = line:match("^[\t ]+")
-	if leading_space == nil then
-		leading_space = ""
-	end
+	indent = get_indent(line)
 
 	line = vim.trim(line)
+	list_marker = list_marker or '-'
 
 	if not is_list_item_line(line) then
-		return leading_space .. '* ' .. line
+		return indent .. list_marker .. ' ' .. line
 	end
 
 	line = line:sub(3)
 
 	if not is_todo_item_line(line) then
-		return leading_space .. '* [ ] ' .. line
+		return indent .. list_marker .. ' [ ] ' .. line
 	end
 
 	todo_mark = toggle_todo_mark(line:sub(2, 2))
 	line = line:sub(4)
 
 	if todo_mark == " " or todo_mark == "X" then
-		return leading_space .. '* [' .. todo_mark .. ']' .. line
+		return indent .. list_marker .. ' [' .. todo_mark .. ']' .. line
 	end
 
 	return orig_line
 end
 
 local function toggle_list_item()
-	set_current_line(toggle_list_item_line(get_current_line()))
+	set_current_line(toggle_list_item_line(get_current_line(), get_preceding_list_marker(get_line_nr())))
 end
 
 -----------
