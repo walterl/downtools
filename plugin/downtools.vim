@@ -8,8 +8,8 @@ if !exists('g:downtools_disable_vlink_mapping')
   autocmd FileType markdown vmap <C-k> :DownMakeLink<CR>
 endif
 
-" Requires tpope/vim-surround
-if exists('g:loaded_surround')
+" Mapping requires tpope/vim-surround or kylechui/nvim-surround
+if empty(mapcheck('S', 'v')) != 1
   if !exists('g:downtools_disable_bold_mapping')
     autocmd FileType markdown vmap <C-b> S*gvS*
   endif
