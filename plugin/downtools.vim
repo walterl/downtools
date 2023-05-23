@@ -11,6 +11,6 @@ endif
 " Mapping requires tpope/vim-surround or kylechui/nvim-surround
 if empty(mapcheck('S', 'v')) != 1
   if !exists('g:downtools_disable_bold_mapping')
-    autocmd FileType markdown vmap <C-b> S*vi*S*
+    autocmd FileType markdown vmap <C-b> S*lvi*S*
   endif
 endif
